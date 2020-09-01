@@ -1,10 +1,17 @@
 package br.com.caelum.leilao.dominio;
 
+import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Leilao {
 
 	private String descricao;
