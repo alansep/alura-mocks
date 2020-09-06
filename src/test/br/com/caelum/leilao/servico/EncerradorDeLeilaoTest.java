@@ -2,8 +2,10 @@ package br.com.caelum.leilao.servico;
 
 import br.com.caelum.leilao.dominio.Leilao;
 import br.com.caelum.leilao.infra.dao.LeilaoDao;
+import br.com.caelum.leilao.infra.dao.RepositorioDeLeiloes;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -64,7 +66,7 @@ public class EncerradorDeLeilaoTest {
                 .build();
         List<Leilao> leiloes = Arrays.asList(leilao1, leilao2, leilao3);
 
-        LeilaoDao leilaoDao = mock(LeilaoDao.class);
+        RepositorioDeLeiloes leilaoDao = mock(LeilaoDao.class);
         when(leilaoDao.correntes()).thenReturn(leiloes);
 
         List<Leilao> leiloesEncontrados = leilaoDao.correntes();
@@ -76,5 +78,22 @@ public class EncerradorDeLeilaoTest {
         assertTrue(leiloesEncontrados.get(2).isEncerrado());;
         assertEquals(leiloesEncontrados.size(), 3);
     }
+
+    @Test
+    public void naoDeveEncerrarLeilaoVazio(){
+
+        RepositorioDeLeiloes leilaoDao = mock(LeilaoDao.class);
+
+        when(leilaoDao.correntes()).thenReturn(new ArrayList<>());
+
+        EncerradorDeLeilao encerradorDeLeilao = new EncerradorDeLeilao(leilaoDao);
+
+        encerradorDeLeilao.encerra();
+
+        assertEquals(encerradorDeLeilao.getTotalEncerrados(), 0);
+
+
+    }
+
 
 }
